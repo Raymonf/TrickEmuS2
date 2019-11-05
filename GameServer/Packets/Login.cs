@@ -109,8 +109,7 @@ namespace TrickEmu2.Packets
             
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(6903); // Item ID
-            items.WriteUInt32(3031780617); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780617); // Item UID
             items.WriteUInt16(1); // Count
             // Refine? Time?
             items.WriteUInt32(0); // ?
@@ -119,8 +118,7 @@ namespace TrickEmu2.Packets
 
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(6953); // Item ID
-            items.WriteUInt32(3031780618); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780618); // Item UID
             items.WriteUInt16(1); // Count
             // Refine? Time?
             items.WriteUInt32(0); // ?
@@ -129,33 +127,34 @@ namespace TrickEmu2.Packets
 
             items.WriteByte(0x01); // Item class 1
             items.WriteUInt32(2006); // Item ID
-            items.WriteUInt32(3031780619); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780619); // Item UID
             items.WriteUInt16(30); // Count
             // Item class doesn't need refine/time/whatever
 
 
             items.WriteByte(0x01); // Item class 1
             items.WriteUInt32(2206); // Item ID
-            items.WriteUInt32(3031780620); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780620); // Item UID
             items.WriteUInt16(30); // Count
             // Item class doesn't need refine/time/whatever
 
 
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(17310); // Item ID
-            items.WriteUInt32(3031780621); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780621); // Item UID
             items.WriteUInt16(1); // Count
-            items.WriteUInt32(0); // ?
-            items.WriteByte(0x00); // ?
+            items.WriteByte(0); // Unknown?
+            items.WriteByte(0); // Refine Level
+            items.WriteByte(0); // Refine State
+            items.WriteByte(0); // Item Slot
+            items.WriteByte(0); // Unknown?
+            //items.WriteUInt32(0); // ?
+            //items.WriteByte(0x00); // ?
 
 
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(17910); // Item ID
-            items.WriteUInt32(3031780622); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780622); // Item UID
             items.WriteUInt16(1); // Count
             items.WriteUInt32(0); // ?
             items.WriteByte(0x00); // ?
@@ -163,8 +162,7 @@ namespace TrickEmu2.Packets
 
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(18810); // Item ID
-            items.WriteUInt32(3031780623); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780623); // Item UID
             items.WriteUInt16(1); // Count
             items.WriteUInt32(0); // ?
             items.WriteByte(0x00); // ?
@@ -172,8 +170,7 @@ namespace TrickEmu2.Packets
 
             items.WriteByte(0x02); // Item class 2
             items.WriteUInt32(19241); // Item ID
-            items.WriteUInt32(3031780624); // Item UID
-            items.WriteUInt32(0); // ^ We need to make this an int64...
+            items.WriteUInt64(3031780624); // Item UID
             items.WriteUInt16(1); // Count
             items.WriteUInt32(0); // ?
             items.WriteByte(0x00); // ?
@@ -357,9 +354,10 @@ namespace TrickEmu2.Packets
             unk7.WriteHexString("AD E6 76 CE");
             full.AddRange(unk7.GetPacket());
 
-            var unk8 = new PacketBuffer(0x477, user);
-            unk8.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 E0 54 42 5B 00 00 00 00");
-            full.AddRange(unk8.GetPacket());
+            var time = new PacketBuffer(0x477, user);
+            time.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00");
+            time.WriteUInt64((ulong)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+            full.AddRange(time.GetPacket());
 
             var unk9 = new PacketBuffer(0x4CC, user);
             unk9.WriteHexString("00 00 00 00");

@@ -66,6 +66,7 @@
     <Compile Include="Map\Data\PointObject.cs" />
     <Compile Include="Map\Data\RangeObject.cs" />
     <Compile Include="Map\MapDataLoader.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Packets\CharacterChat.cs" />
     <Compile Include="Packets\CharacterMove.cs" />
     <Compile Include="Packets\Disconnect.cs" />
