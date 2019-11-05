@@ -16,7 +16,8 @@ namespace TE2Common
 
         public PacketBuffer(ushort opcode, User user)
         {
-            packet = new List<byte>();
+            // initial capacity of 512
+            packet = new List<byte>(512);
             this.opcode = opcode;
             this.user = user;
         }
@@ -96,6 +97,16 @@ namespace TE2Common
                 return;
             }
 
+            packet.AddRange(BitConverter.GetBytes(i));
+            return;
+        }
+
+        /// <summary>
+        /// Writes a Int16 to the packet "buffer"
+        /// </summary>
+        /// <param name="i">The int to write</param>
+        public void WriteInt16(short i)
+        {
             packet.AddRange(BitConverter.GetBytes(i));
             return;
         }

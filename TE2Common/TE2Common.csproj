@@ -58,6 +58,7 @@
     <Compile Include="Player\Mover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\Unpacker.cs" />
+    <Compile Include="Serializable.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

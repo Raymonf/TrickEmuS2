@@ -147,7 +147,8 @@ namespace TrickEmu2.Packets
             items.WriteByte(0); // Refine Level
             items.WriteByte(0); // Refine State
             items.WriteByte(0); // Item Slot
-            items.WriteByte(0); // Unknown?
+            items.WriteByte(0); // Unknown? Num attrs?
+            // 0x14 = 20 // 0A 00 00 00 10 27 FE 7F 00 00 00 00
             //items.WriteUInt32(0); // ?
             //items.WriteByte(0x00); // ?
 
