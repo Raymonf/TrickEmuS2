@@ -66,6 +66,16 @@ namespace TE2Common
         }
 
         /// <summary>
+        /// Writes a bool to the packet "buffer"
+        /// </summary>
+        /// <param name="b">The bool to write</param>
+        public void WriteBool(bool b)
+        {
+            packet.Add(b ? (byte)0x1 : (byte)0x0);
+            return;
+        }
+
+        /// <summary>
         /// Writes a byte to the packet "buffer"
         /// </summary>
         /// <param name="b">The byte to write</param>

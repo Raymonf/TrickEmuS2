@@ -57,12 +57,43 @@ namespace TrickEmu2.Packets
                 return;
             }
 
+            // We should create it!
+            // Let's get their new slot number
+            var newSlotId = 0;
+            try
+            {
+                using (MySqlCommand cmd = Program._MySQLConn.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT COUNT(*) FROM characters WHERE user = @userId AND authority != 2;";
+                    cmd.Parameters.AddWithValue("@userId", user.Id);
+
+                    newSlotId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    if (newSlotId >= user.SlotsAllowed)
+                    {
+                        var fail = new PacketBuffer(0x7D7, user);
+                        fail.WriteUInt32(0x3FF); // trying to pull something, so this is fine
+                        fail.Send();
+
+                        cmd.Dispose();
+                        return;
+                    }
+
+                    cmd.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.logger.Error(ex, "Database error: ");
+                return;
+            }
+
 
             uint newCharId = 0;
 
             using (MySqlCommand cmd = Program._MySQLConn.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO characters (user, name, job, type, ftype, hair, build) VALUES (@userid, @charname, @job, @type, @ftype, @hair, @build); select last_insert_id();";
+                cmd.CommandText = "INSERT INTO characters (user, name, job, type, ftype, hair, build, slot) VALUES (@userid, @charname, @job, @type, @ftype, @hair, @build, @slot); select last_insert_id();";
                 cmd.Parameters.AddWithValue("@userid", user.Id);
                 cmd.Parameters.AddWithValue("@charname", name);
                 cmd.Parameters.AddWithValue("@job", job);
@@ -70,6 +101,7 @@ namespace TrickEmu2.Packets
                 cmd.Parameters.AddWithValue("@ftype", Constants.CharacterTypes[type]);
                 cmd.Parameters.AddWithValue("@hair", hairColor);
                 cmd.Parameters.AddWithValue("@build", stat_p + "," + stat_m + "," + stat_s + "," + stat_c);
+                cmd.Parameters.AddWithValue("@slot", newSlotId); // 0 indexed slot ID
                 newCharId = Convert.ToUInt32(cmd.ExecuteScalar());
             }
             

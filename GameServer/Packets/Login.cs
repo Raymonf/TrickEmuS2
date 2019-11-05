@@ -37,6 +37,7 @@ namespace TrickEmu2.Packets
                         user.Character = new Character()
                         {
                             User = user,
+                            Slot = reader.GetByte("slot"),
                             Id = reader.GetUInt64("id"),
                             Name = reader.GetString("name"),
                             Level = reader.GetUInt16("level"),
@@ -46,18 +47,23 @@ namespace TrickEmu2.Packets
                             Map = reader.GetUInt16("map"),
                             X = reader.GetUInt16("pos_x"),
                             Y = reader.GetUInt16("pos_y"),
-                            FType = reader.GetUInt16("ftype"),
-                            Job = reader.GetUInt16("job"),
-                            Type = reader.GetUInt16("type"),
-                            Hair = reader.GetUInt16("hair"),
-                            Build = new Build
+                            FType = reader.GetByte("ftype"),
+                            Job = reader.GetByte("job"),
+                            Type = reader.GetByte("type"),
+                            Hair = reader.GetByte("hair"),
+                            Build = new CharacterBuild
                             {
                                 Power = int.Parse(build[0]),
                                 Magic = int.Parse(build[1]),
                                 Sense = int.Parse(build[2]),
                                 Charm = int.Parse(build[3])
                             },
-                            EntityId = ++Program.EntityId
+                            EntityId = ++Program.EntityId,
+                            CreateTime = reader.GetDateTime("create_time"),
+                            Job2 = reader.GetByte("job2"),
+                            Type2 = reader.GetUInt16("job2_type"),
+                            Job3 = reader.GetByte("job3"),
+                            Type3 = reader.GetUInt16("job3_type"),
                         };
                     }
                 }
@@ -73,12 +79,12 @@ namespace TrickEmu2.Packets
 
             //success.WriteHexString("01 64 75 72 61 67 6F 6E 31 32 34 00 00 00 68 00 00 00 00 00 00 04 00 04 01 01 04 03 02 5C 51 42 5B 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
             
-            success.WriteByte((byte)character.FType);
+            success.WriteByte(character.Slot);
             success.WriteString(character.Name, 20);
 
             success.WriteUInt16(character.Job); // type? is it {byte} 0x00?
-            success.WriteByte((byte)character.Type);
-            success.WriteByte((byte)character.FType); // hair color? ftype?
+            success.WriteByte(character.Type);
+            success.WriteByte(character.FType); // hair color? ftype?
 
             success.WriteByte((byte)character.Build.Power);
             success.WriteByte((byte)character.Build.Magic);
@@ -86,11 +92,24 @@ namespace TrickEmu2.Packets
             success.WriteByte((byte)character.Build.Charm);
 
             // ?
-            success.WriteHexString("5C 51 42 5B");
+            success.WriteUInt64(Methods.DateTimeToUnix(character.CreateTime));
             // ?
-            success.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00");
+            success.WriteUInt16(character.Type2);
+            success.WriteByte(character.Job2);
+            success.WriteUInt16(character.Type3);
+            success.WriteByte(character.Job3);
+            success.WriteBool(character.IsSoulSeed);
+            success.WriteBool(character.IsAwaken);
+            if (character.Couple != null)
+            {
+                success.WriteUInt64(character.Couple.Id);
+            }
+            else
+            {
+                success.WriteUInt64(0); // nonexistent
+            }
+            success.WriteHexString("00 00 00 00"); // is this used?
             
-
             success.Send();
 
 
@@ -357,7 +376,7 @@ namespace TrickEmu2.Packets
 
             var time = new PacketBuffer(0x477, user);
             time.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00");
-            time.WriteUInt64((ulong)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
+            time.WriteUInt64(Methods.DateTimeToUnix(DateTime.UtcNow));
             full.AddRange(time.GetPacket());
 
             var unk9 = new PacketBuffer(0x4CC, user);

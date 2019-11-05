@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TE2Common;
+using TE2Common.Interfaces;
 
 namespace TrickEmu2.Models
 {
@@ -74,7 +75,7 @@ namespace TrickEmu2.Models
         }
     }
 
-    public class Item
+    public class Item : IItem
     {
         public ItemClass Class { get; set; }
         public uint Id { get; set; }

@@ -96,5 +96,10 @@ namespace TE2Common
         {
             return Constants.Encoding.GetString(Encoding.Convert(Encoding.UTF8, Constants.Encoding, Encoding.UTF8.GetBytes(s)));
         }
+
+        public static ulong DateTimeToUnix(DateTime time)
+        {
+            return (ulong)(time.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TE2Common.Models
 {
-    public class Build
+    public class CharacterBuild
     {
         public int Power { get; set; }
         public int Magic { get; set; }

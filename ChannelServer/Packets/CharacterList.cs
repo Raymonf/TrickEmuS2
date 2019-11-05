@@ -38,7 +38,6 @@ namespace TrickEmu2.Packets
 
             if (numChars > 0)
             {
-                byte slotNum = 0;
                 using (MySqlCommand cmd = Program._MySQLConn.CreateCommand())
                 {
                     cmd.CommandText = "SELECT * FROM characters WHERE user = @userid AND authority != 2 LIMIT 12;";
@@ -50,7 +49,7 @@ namespace TrickEmu2.Packets
                             chars.WriteUInt32(reader.GetUInt32("id")); // Character ID
                             chars.WriteInt32(0); // probably part of int64?
 
-                            chars.WriteByte(slotNum); // Index
+                            chars.WriteByte(reader.GetByte("slot")); // Index
 
                             // 16 bytes maximum, but 20 is fine
                             var name = Methods.Utf8Convert(reader.GetString("name"));
@@ -172,8 +171,6 @@ namespace TrickEmu2.Packets
                             chars.WriteUInt32(0);
                             chars.WriteUInt32(0);
                             chars.WriteHexString("00 00");
-
-                            slotNum++;
                         }
                     }
                 }
