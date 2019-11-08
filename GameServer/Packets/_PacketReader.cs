@@ -18,11 +18,11 @@ namespace TrickEmu2.Packets
             {
                 // Login
                 case 0x04:
-                    Login.Handle(user, new InPacket(dec));
+                    OnLogin.Handle(user, new InPacket(dec));
                     break;
                 // Login, part 2
                 case 0x05:
-                    Login.HandleSelect2(user, dec);
+                    OnLogin.HandleSelect2(user, dec);
                     break;
                 // Movement
                 case 0x18:

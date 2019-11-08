@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TE2Common;
+using TE2Common.Interfaces;
 
 namespace TE2Common
 {
@@ -239,6 +240,17 @@ namespace TE2Common
                              .Where(x => x % 2 == 0)
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
+        }
+
+        public void Put(params object[] args)
+        {
+            foreach (var arg in args)
+            {
+                if (arg is ISerializable)
+                {
+                    ((ISerializable)(arg)).Serialize(this);
+                }
+            }
         }
     }
 }

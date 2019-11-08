@@ -75,7 +75,7 @@ namespace TrickEmu2.Packets
 
                     if (dist > 0 && user.Character.Mover.MoveStep == moveStep)
                     {
-                        var waitTime = (int)((5 * dist) + 10 - (-10 * user.Character.MoveSpeed));
+                        var waitTime = (int)((5 * dist) + 10 - (-10 * user.Character.MoveSpeed_Run));
 
                         user.Character.X = point.X;
                         user.Character.Y = point.Y;
@@ -88,7 +88,7 @@ namespace TrickEmu2.Packets
 
                 if (user.Character.Mover.MoveStep == moveStep && endTask != null)
                 {
-                    await Task.Delay((int)(300 - (-10 * user.Character.MoveSpeed)));
+                    await Task.Delay((int)(300 - (-10 * user.Character.MoveSpeed_Run)));
 
                     endTask.Start();
                 }

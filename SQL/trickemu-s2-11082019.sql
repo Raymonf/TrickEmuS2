@@ -1,16 +1,16 @@
 /*
-Navicat MySQL Data Transfer
+Navicat MariaDB Data Transfer
 
 Source Server         : localhost_3306
-Source Server Version : 100210
+Source Server Version : 100309
 Source Host           : localhost:3306
 Source Database       : trickemu
 
-Target Server Type    : MYSQL
-Target Server Version : 100210
+Target Server Type    : MariaDB
+Target Server Version : 100309
 File Encoding         : 65001
 
-Date: 2018-07-08 00:53:08
+Date: 2019-11-08 01:00:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,18 +31,24 @@ CREATE TABLE `characters` (
   `map` int(11) DEFAULT 33,
   `pos_x` int(11) DEFAULT 768,
   `pos_y` int(11) DEFAULT 768,
-  `job` int(2) NOT NULL,
-  `type` int(2) NOT NULL,
-  `ftype` int(2) NOT NULL,
-  `hair` int(2) NOT NULL,
+  `job` tinyint(3) NOT NULL,
+  `type` tinyint(3) NOT NULL,
+  `ftype` tinyint(3) NOT NULL,
+  `hair` tinyint(3) NOT NULL,
   `build` varchar(7) NOT NULL,
+  `slot` tinyint(3) NOT NULL,
+  `job2` tinyint(3) DEFAULT 0,
+  `job2_type` tinyint(3) DEFAULT 0,
+  `job3` tinyint(3) DEFAULT 0,
+  `job3_type` tinyint(3) DEFAULT 0,
+  `create_time` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100000010 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of characters
 -- ----------------------------
-INSERT INTO `characters` VALUES ('100000001', '100000003', '[Dev]Raymonf', '0', '0', '0', '100', '100', '33', '768', '768', '2', '2', '0', '10', '4,1,1,4');
+INSERT INTO `characters` VALUES ('100000001', '100000003', 'Raymonf', '0', '1', '0', '100', '100', '33', '768', '768', '2', '2', '0', '10', '4,1,1,4', '0', '0', '0', '0', '0', '2019-11-05 13:41:22');
 
 -- ----------------------------
 -- Table structure for char_equip
@@ -90,4 +96,4 @@ CREATE TABLE `users` (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('100000003', 'raymonf', '1q2w3e', '4');
+INSERT INTO `users` VALUES ('100000003', 'raymonf', 'testing', '4');

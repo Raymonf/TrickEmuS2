@@ -97,6 +97,14 @@ namespace TE2Common
             return Constants.Encoding.GetString(Encoding.Convert(Encoding.UTF8, Constants.Encoding, Encoding.UTF8.GetBytes(s)));
         }
 
+        public static ulong DateTimeToFileTime(DateTime time)
+        {
+            // https://support.microsoft.com/en-us/help/188768/info-working-with-the-filetime-structure
+            // #define _SECOND ((int64) 10000000)
+
+            return (ulong)(time.Subtract(new DateTime(1601, 1, 1)).TotalSeconds) * 10000000;
+        }
+
         public static ulong DateTimeToUnix(DateTime time)
         {
             return (ulong)(time.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);

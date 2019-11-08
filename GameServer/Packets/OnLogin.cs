@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TE2Common;
 using TE2Common.Models;
+using TrickEmu2.Packets.Login;
 
 namespace TrickEmu2.Packets
 {
-    class Login
+    class OnLogin
     {
         public static void Handle(User user, InPacket packet)
         {
@@ -34,10 +35,15 @@ namespace TrickEmu2.Packets
                     while (reader.Read())
                     {
                         var build = reader.GetString("build").Split(',');
+                        byte slot = reader.GetByte("slot");
+                        byte job2 = reader.GetByte("job2");
+                        byte type2 = reader.GetByte("job2_type");
+                        byte job3 = reader.GetByte("job3");
+                        byte type3 = reader.GetByte("job3_type");
                         user.Character = new Character()
                         {
                             User = user,
-                            Slot = reader.GetByte("slot"),
+                            Slot = slot,
                             Id = reader.GetUInt64("id"),
                             Name = reader.GetString("name"),
                             Level = reader.GetUInt16("level"),
@@ -60,10 +66,10 @@ namespace TrickEmu2.Packets
                             },
                             EntityId = ++Program.EntityId,
                             CreateTime = reader.GetDateTime("create_time"),
-                            Job2 = reader.GetByte("job2"),
-                            Type2 = reader.GetUInt16("job2_type"),
-                            Job3 = reader.GetByte("job3"),
-                            Type3 = reader.GetUInt16("job3_type"),
+                            Job2 = job2,
+                            Type2 = type2,
+                            Job3 = job3,
+                            Type3 = type3,
                         };
                     }
                 }
@@ -250,9 +256,9 @@ namespace TrickEmu2.Packets
             skill.WriteByte(0xB4); // ?
             charInfo.AddRange(skill.GetPacket());
 
-            var unknown1 = new PacketBuffer(0x1FC, user);
-            unknown1.WriteHexString("C0 DC 13 63 22 17 D4 01 00 00");
-            charInfo.AddRange(unknown1.GetPacket());
+            var itemExpiry = new PacketBuffer(0x1FC, user);
+            itemExpiry.Put(new ItemExpiry(character));
+            charInfo.AddRange(itemExpiry.GetPacket());
 
             var unknown2 = new PacketBuffer(0x341, user);
             unknown2.WriteUInt16(0);

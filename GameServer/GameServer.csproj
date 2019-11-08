@@ -70,7 +70,8 @@
     <Compile Include="Packets\CharacterChat.cs" />
     <Compile Include="Packets\CharacterMove.cs" />
     <Compile Include="Packets\Disconnect.cs" />
-    <Compile Include="Packets\Login.cs" />
+    <Compile Include="Packets\OnLogin.cs" />
+    <Compile Include="Packets\Login\ItemExpiry.cs" />
     <Compile Include="Packets\Portal.cs" />
     <Compile Include="Packets\_PacketReader.cs" />
     <Compile Include="Pathfinder.cs" />

@@ -41,7 +41,8 @@ namespace TE2Common.Models
 
         public ushort EntityId { get; set; } = 0;
 
-        public double MoveSpeed { get; set; } = 1.0;
+        public double MoveSpeed_Walk { get; set; } = 1.0;
+        public double MoveSpeed_Run { get; set; } = 3.0;
 
         public bool IsSoulSeed { get; set; } = false;
         public bool IsAwaken { get; set; } = false;

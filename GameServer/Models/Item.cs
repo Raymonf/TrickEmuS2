@@ -75,6 +75,12 @@ namespace TrickEmu2.Models
         }
     }
 
+    public enum ExistType : byte
+    {
+        Normal = 0,
+        Timed = 1,
+    }
+
     public class Item : IItem
     {
         public ItemClass Class { get; set; }
@@ -86,6 +92,8 @@ namespace TrickEmu2.Models
         public byte RefineState { get; set; } = 0;
         public byte ItemSlot { get; set; } = 0;
         public List<ItemAttribute> Attributes { get; set; } = new List<ItemAttribute>();
+        public ExistType ExistType { get; set; } = ExistType.Normal;
+        public DateTime ExpiryTime { get; set; } = new DateTime(2019, 12, 31);
 
         public void Serialize(PacketBuffer packet)
         {
