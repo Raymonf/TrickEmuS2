@@ -282,11 +282,11 @@ namespace TrickEmu2.Packets
             charInfo.AddRange(notifyEntityId.GetPacket());
 
             var unknown7 = new PacketBuffer(0x377, user);
-            unknown7.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38");
+            unknown7.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38 00 00 00 00 00 00 00 00");
             charInfo.AddRange(unknown7.GetPacket());
 
             var unknown8 = new PacketBuffer(0x376, user);
-            unknown8.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38");
+            unknown8.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38 00 00 00 00 00 00 00 00");
             charInfo.AddRange(unknown8.GetPacket());
 
             var unknown9 = new PacketBuffer(0x3D7, user);
@@ -358,15 +358,7 @@ namespace TrickEmu2.Packets
 
             var unk2 = new PacketBuffer(0x25C, user);
             full.AddRange(unk2.GetPacket());
-
-            var unk3 = new PacketBuffer(0x377, user);
-            unk3.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38");
-            full.AddRange(unk3.GetPacket());
-
-            var unk4 = new PacketBuffer(0x376, user);
-            unk4.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 A8 36 00 00 00 00 00 00 00 00 17 B7 51 38");
-            full.AddRange(unk4.GetPacket());
-
+            
             var unk5 = new PacketBuffer(0x3A6, user);
             unk5.WriteHexString("00 00 00 00 00 00 00 00 00 00 00 00");
             full.AddRange(unk5.GetPacket());
